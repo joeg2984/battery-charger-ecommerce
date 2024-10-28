@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+.cool-background {
+    @apply bg-gradient-to-r from-purple-400 via-pink-500 to-red-500;
+}
+
+.cool-text {
+    @apply text-4xl font-bold text-white;
+}
+
+.cool-button {
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
+}
