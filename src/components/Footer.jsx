@@ -4,7 +4,7 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer className="bg-gray-800 p-4 text-center text-white">
-      © 2024 Battery-Powered Chargers. Charging chargers since the dawn of redundancy.
+      © 2024 Reedundint Inc.
     </footer>
   );
 };

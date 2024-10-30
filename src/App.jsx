@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
-import Cart from './pages/Cart';
+import Cart from './components/Cart';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -16,6 +16,8 @@ import FAQ from './pages/FAQ';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import ShakeDetector from './components/ShakeDetector';
+import CartProvider from './CartContext';
+
 
 const App = () => {
   const [session, setSession] = useState(null);
@@ -48,7 +50,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<Cart />} /> 
             <Route
               path="/checkout"
               element={

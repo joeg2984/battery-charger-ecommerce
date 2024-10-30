@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
       <p className="text-gray-600">{product.description}</p>
       <p className="mt-2 text-lg font-bold">${product.price}</p>
       <div className="mt-4 flex justify-between items-center">
-        <button
+      <button
           onClick={() => addToCart(product)}
           className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
         >
@@ -31,17 +31,11 @@ const ProductCard = ({ product }) => {
           to={`/products/${product.id}`}
           className="text-yellow-500 hover:underline"
         >
-          Charge Now!
+          Product Detail
         </Link>
+        
       </div>
-      {/* Charging Animation */}
-      <div className="mt-2">
-        <motion.div
-          className="w-8 h-8 bg-yellow-500 rounded-full mx-auto"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ repeat: Infinity, duration: 1 }}
-        />
-      </div>
+     
     </motion.div>
   );
 };
