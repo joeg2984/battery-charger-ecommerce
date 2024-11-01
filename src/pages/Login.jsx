@@ -2,49 +2,39 @@ import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { insertOrUpdateUserData } from '../userHelpers';
 
 const Login = () => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleLoginWithMagicLink = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      console.log('Attempting to log in user with magic link...');
+      console.log('Attempting to log in user...');
       
-      // Send magic link to the user's email
-      const { data, error } = await supabase.auth.signInWithOtp({ email });
+      // Log in user with email and password
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
       if (error) {
-        console.error('Error sending magic link:', error.message);
+        console.error('Login error:', error.message);
         setErrorMessage(error.message);
         return;
       }
 
-      alert('Login successful! Please check your email for the magic link to complete the login.');
+      // Notify the user and navigate to the home page
+      alert('Login successful! Redirecting...');
+      navigate('/home');
     } catch (error) {
       console.error('Login process failed:', error.message);
-      setErrorMessage(error.message);
+      setErrorMessage(`Login process failed: ${error.message}`);
     }
   };
-
-  // Effect to run when the user is logged in
-  React.useEffect(() => {
-    const getUserAndInsertData = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (session) {
-        console.log('User session found:', session.user);
-        await insertOrUpdateUserData(session.user); // Insert user data if not already in the table
-        navigate('/home'); // Redirect after successful login
-      }
-    };
-
-    getUserAndInsertData();
-  }, []);
 
   return (
     <div className="max-w-md mx-auto">
@@ -56,7 +46,7 @@ const Login = () => {
         />
       </Helmet>
       <h2 className="text-3xl font-bold mb-4">Log In to Stay Charged!</h2>
-      <form onSubmit={handleLoginWithMagicLink} className="space-y-4">
+      <form onSubmit={handleLogin} className="space-y-4">
         {errorMessage && (
           <p className="text-red-500">{errorMessage}</p>
         )}
@@ -71,11 +61,22 @@ const Login = () => {
             required
           />
         </div>
+        <div>
+          <label className="block mb-1">Password:</label>
+          <input
+            type="password"
+            autoComplete="current-password"
+            className="w-full border p-2 rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
         <button
           type="submit"
           className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
         >
-          Send Magic Link
+          Log In
         </button>
       </form>
       <p className="mt-4">

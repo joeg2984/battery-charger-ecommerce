@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { UNSAFE_useRouteId } from "react-router-dom";
 import { supabase } from "./supabase";
 
 const AuthContext = createContext();
@@ -7,7 +6,6 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
-}
 
     const updateSession = (access_token, User_id) => {
         setToken(access_token);
@@ -31,33 +29,35 @@ const AuthProvider = ({ children }) => {
         }
         clearSession();
     }
-    const { error } = await supabase.auth.signOut()
-    
+
     useEffect(() => {
-        const { data: { subscription} } = supabase.auth.onAuthStateChange((event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
-                updateSession(session.access_token, user.id);
+                updateSession(session.access_token, session.user.id);
             }
             if (!session && event === 'SIGNED_OUT') {
                 clearSession();
             }
         });
 
-        return () => {subscription.unsubscribe();
+        return () => {
+            subscription.unsubscribe();
         }
-    }, []);    
+    }, []);
 
     return (
         <AuthContext.Provider value={{ user, token, logout }}>
             {children}
         </AuthContext.Provider>
     );
+}
 
-    export const useAuth = () => {
-        const context = useContext(AuthContext);
-        if (!context) {
-            throw new Error('useAuth must be used within an AuthProvider');
-        }
-        return context;
+export { AuthProvider };
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
     }
-    
+    return context;
+}

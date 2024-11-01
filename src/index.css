@@ -4,3 +4,45 @@
 @tailwind utilities;
 
 /* You can add custom styles below */
+/* Custom styles */
+
+body {
+    background-color: #F9FAFB;
+    color: #1F2937;
+}
+
+h1 {
+    @apply text-5xl font-bold mb-6;
+}
+
+p {
+    @apply text-lg leading-relaxed mb-4;
+}
+
+.button {
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
+}
+
+.card {
+    @apply bg-white shadow-md rounded-lg overflow-hidden;
+}
+
+.card-header {
+    @apply bg-gradient-to-r from-blue-500 to-purple-600 p-4;
+}
+
+.card-title {
+    @apply text-white text-2xl font-semibold;
+}
+
+.card-body {
+    @apply p-6;
+}
+
+.navbar {
+    @apply flex items-center justify-between flex-wrap bg-teal-500 p-6;
+}
+
+.navbar-link {
+    @apply text-white mr-4 hover:text-gray-200;
+}
